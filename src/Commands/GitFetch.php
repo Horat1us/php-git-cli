@@ -18,17 +18,6 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
  */
 class GitFetch extends BaseCommand
 {
-
-    /**
-     * Generates command to be executed
-     *
-     * @return string
-     */
-    protected function getCommand(): string
-    {
-        return 'git fetch';
-    }
-
     /**
      *
      *

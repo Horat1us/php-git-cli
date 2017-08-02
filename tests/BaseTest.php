@@ -63,7 +63,7 @@ abstract class BaseTest extends TestCase
      * @param bool $mayExists
      * @return GitPath
      */
-    protected function createRepository(string $name, bool $mayExists = true) :GitPath
+    protected function createRepository(string $name = 'git_repository', bool $mayExists = true) :GitPath
     {
         $path = $this->createFolder($name, $mayExists);
 

@@ -21,7 +21,19 @@ abstract class BaseResponse
      */
     private $output;
 
+    /**
+     * BaseResponse constructor.
+     * @param string $output
+     */
     public function __construct(string $output)
+    {
+        $this->setOutput($output);
+    }
+
+    /**
+     * @param string $output
+     */
+    public function setOutput(string $output)
     {
         $this->output = $output;
     }

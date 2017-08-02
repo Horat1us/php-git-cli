@@ -10,6 +10,7 @@ namespace Horat1us\Git\Commands;
 
 use Horat1us\Git\Models\GitPath;
 use Horat1us\Git\Responses\BaseResponse;
+use Horat1us\Git\Responses\GitErrorResponse;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -38,10 +39,38 @@ abstract class BaseCommand
     }
 
     /**
+     * @return string[]
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * Converts exception to Response (or throws if it can not handle it)
+     *
+     * @param ProcessFailedException $exception
+     * @return BaseResponse
+     */
+    protected function catchException(ProcessFailedException $exception): BaseResponse
+    {
+        return new GitErrorResponse($exception->getProcess()->getErrorOutput());
+    }
+
+    /**
+     * Converts output string to some Git Response object
+     *
+     * @param string $output
+     * @return BaseResponse
+     */
+    abstract protected function getResponse(string $output): BaseResponse;
+
+
+    /**
      * @param $path
      * @return BaseResponse
      */
-    public function execute(GitPath $path)
+    final public function execute(GitPath $path)
     {
         $process = new Process($this->getCommand(), (string)$path);
 
@@ -58,7 +87,7 @@ abstract class BaseCommand
      *
      * @return string
      */
-    public function getCommand(): string
+    final public function getCommand(): string
     {
         $reflection = new \ReflectionClass($this);
         $class = $reflection->getShortName();
@@ -74,28 +103,4 @@ abstract class BaseCommand
             . implode('-', array_map('strtolower', $matches[1]))
             . ' ' . implode(' ', $this->options);
     }
-
-    /**
-     * @return string[]
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
-     *
-     *
-     * @param string $output
-     * @return BaseResponse
-     */
-    abstract protected function getResponse(string $output): BaseResponse;
-
-    /**
-     * Converts exception to Response (or throws if it can not handle it)
-     *
-     * @param ProcessFailedException $exception
-     * @return BaseResponse
-     */
-    abstract protected function catchException(ProcessFailedException $exception): BaseResponse;
 }
