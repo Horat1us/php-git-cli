@@ -8,6 +8,7 @@
 
 namespace Horat1us\Git\Tests;
 
+use Horat1us\Git\Models\GitPath;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -60,16 +61,16 @@ abstract class BaseTest extends TestCase
     /**
      * @param string $name
      * @param bool $mayExists
-     * @return string
+     * @return GitPath
      */
-    protected function createRepository(string $name, bool $mayExists = true): string
+    protected function createRepository(string $name, bool $mayExists = true) :GitPath
     {
         $path = $this->createFolder($name, $mayExists);
 
         $command = new Process('git init', $path);
         $command->mustRun();
 
-        return $path;
+        return new GitPath($path);
     }
 
     /**

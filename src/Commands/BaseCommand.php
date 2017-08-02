@@ -54,10 +54,34 @@ abstract class BaseCommand
 
     /**
      * Generates command to be executed
+     * Converts GitFormatPatch to `git format-patch`
      *
      * @return string
      */
-    abstract protected function getCommand(): string;
+    public function getCommand(): string
+    {
+        $reflection = new \ReflectionClass($this);
+        $class = $reflection->getShortName();
+
+        $commandName = preg_replace('/^Git([A-Z][a-z]+)/', '$1', $class);
+        if (!$commandName || $commandName === $class) {
+            throw new \UnexpectedValueException("Can not generate command for " . $class);
+        }
+
+        preg_match_all('/([A-Z][a-z]+)/', $commandName, $matches);
+
+        return 'git '
+            . implode('-', array_map('strtolower', $matches[1]))
+            . ' ' . implode(' ', $this->options);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 
     /**
      *

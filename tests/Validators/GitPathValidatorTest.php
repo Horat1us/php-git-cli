@@ -23,7 +23,7 @@ class GitPathValidatorTest extends BaseTest
     public function testGitRepository()
     {
         $path = $this->createRepository('git_repository');
-        $validator = new GitPathValidator($path);
+        $validator = new GitPathValidator((string)$path);
         $validator->validate();
     }
 
