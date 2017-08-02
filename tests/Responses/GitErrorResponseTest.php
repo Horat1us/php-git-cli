@@ -9,7 +9,7 @@
 namespace Horat1us\Git\Tests\Responses;
 
 
-use Horat1us\Git\Responses\GitErrorResponse;
+use Horat1us\Git\Responses\Errors\GitErrorResponse;
 use Horat1us\Git\Tests\BaseTest;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;

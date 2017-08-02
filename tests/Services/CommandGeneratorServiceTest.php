@@ -11,7 +11,6 @@ namespace Horat1us\Git\Tests\Services;
 
 use Horat1us\Git\Services\CommandGeneratorService;
 use Horat1us\Git\Tests\BaseTest;
-use SebastianBergmann\GlobalState\RuntimeException;
 
 /**
  * Class CommandGeneratorService

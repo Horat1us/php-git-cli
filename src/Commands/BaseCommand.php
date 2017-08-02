@@ -10,7 +10,7 @@ namespace Horat1us\Git\Commands;
 
 use Horat1us\Git\Models\GitPath;
 use Horat1us\Git\Responses\BaseResponse;
-use Horat1us\Git\Responses\GitErrorResponse;
+use Horat1us\Git\Responses\Errors\GitErrorResponse;
 use Horat1us\Git\Services\CommandGeneratorService;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -83,7 +83,9 @@ abstract class BaseCommand
         $process = new Process($this->getCommand(), (string)$path);
 
         try {
-            return $this->getResponse($process->mustRun()->getOutput());
+            $output = $process->mustRun()->getOutput();
+            $error = $process->mustRun()->getErrorOutput();
+            return $this->getResponse($output);
         } catch (ProcessFailedException $exception) {
             return $this->catchException($exception);
         }
@@ -97,6 +99,6 @@ abstract class BaseCommand
      */
     final public function getCommand(): string
     {
-        $this->commandGenerator->generate($this->options);
+        return $this->commandGenerator->generate($this->options);
     }
 }

@@ -6,8 +6,9 @@
  * Time: 8:19 PM
  */
 
-namespace Horat1us\Git\Responses;
+namespace Horat1us\Git\Responses\Errors;
 
+use Horat1us\Git\Responses\BaseResponse;
 
 /**
  * Class GitErrorResponse
