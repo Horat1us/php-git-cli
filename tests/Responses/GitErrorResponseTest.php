@@ -48,5 +48,15 @@ class GitErrorResponseTest extends BaseTest
             "pathspec 'not-existent-branch' did not match any file(s) known to git.",
             $error->getError()
         );
+        $this->assertEquals(
+            $output,
+            $error->getOutput()
+        );
+    }
+
+    public function testInvalidOutput()
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        new GitErrorResponse('some successful output');
     }
 }

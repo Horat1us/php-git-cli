@@ -43,5 +43,6 @@ class CommandGeneratorServiceTest extends BaseTest
     {
         $service = new CommandGeneratorService(null, 'GitFetch');
         $this->assertEquals('git fetch --all', $service->generate(['--all']));
+        $this->assertEquals($service->getClassName(), 'GitFetch');
     }
 }

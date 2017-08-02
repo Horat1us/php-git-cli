@@ -25,6 +25,7 @@ class GitPathValidatorTest extends BaseTest
         $path = $this->createRepository('git_repository');
         $validator = new GitPathValidator((string)$path);
         $validator->validate();
+        $this->assertDirectoryExists((string)$path);
     }
 
     public function testSampleFolder()
