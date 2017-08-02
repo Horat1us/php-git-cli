@@ -11,6 +11,7 @@ namespace Horat1us\Git\Commands;
 use Horat1us\Git\Models\GitPath;
 use Horat1us\Git\Responses\BaseResponse;
 use Horat1us\Git\Responses\GitErrorResponse;
+use Horat1us\Git\Services\CommandGeneratorService;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -27,6 +28,11 @@ abstract class BaseCommand
     protected $options = [];
 
     /**
+     * @var CommandGeneratorService
+     */
+    private $commandGenerator;
+
+    /**
      * BaseCommand constructor.
      * @param array $options
      */
@@ -36,6 +42,8 @@ abstract class BaseCommand
         if (!empty($options)) {
             $this->options = $options;
         }
+
+        $this->commandGenerator = new CommandGeneratorService($this);
     }
 
     /**
@@ -89,18 +97,6 @@ abstract class BaseCommand
      */
     final public function getCommand(): string
     {
-        $reflection = new \ReflectionClass($this);
-        $class = $reflection->getShortName();
-
-        $commandName = preg_replace('/^Git([A-Z][a-z]+)/', '$1', $class);
-        if (!$commandName || $commandName === $class) {
-            throw new \UnexpectedValueException("Can not generate command for " . $class);
-        }
-
-        preg_match_all('/([A-Z][a-z]+)/', $commandName, $matches);
-
-        return 'git '
-            . implode('-', array_map('strtolower', $matches[1]))
-            . ' ' . implode(' ', $this->options);
+        $this->commandGenerator->generate($this->options);
     }
 }
