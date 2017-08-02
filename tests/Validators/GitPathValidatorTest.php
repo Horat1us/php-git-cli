@@ -12,7 +12,6 @@ namespace Horat1us\Git\Tests\Validators;
 use Horat1us\Git\Exceptions\InvalidGitRepository;
 use Horat1us\Git\Tests\BaseTest;
 use Horat1us\Git\Validators\GitPathValidator;
-use PHPUnit\Util\Filesystem;
 
 /**
  * Class GitPathValidatorTest

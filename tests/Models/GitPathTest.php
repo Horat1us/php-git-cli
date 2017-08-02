@@ -31,5 +31,6 @@ class GitPathTest extends BaseTest
         $repositoryPath = $this->createRepository('git_repository') . DIRECTORY_SEPARATOR;
         $path = new GitPath($repositoryPath);
         $this->assertEquals(rtrim($repositoryPath, DIRECTORY_SEPARATOR), $path->getPath());
+        $this->assertEquals($path->getPath(), (string)$path);
     }
 }
