@@ -46,15 +46,6 @@ class GitFetchTest extends BaseTest
 
     public function testCommit()
     {
-        file_put_contents($this->remote . '/some-changed-file', mt_rand());
-        $this->filesystem->appendToFile($this->remote . '/some-changed-file', "\n" . mt_rand());
-
-        $process = new Process("git add some-changed-file", (string)$this->remote);
-        $process->mustRun();
-
-        $process = new Process("git commit -a -m 'First commit'", (string)$this->remote);
-        $process->mustRun();
-
         $command = new GitFetch(['--all']);
         $response = $command->execute($this->local);
 
