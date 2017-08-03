@@ -84,7 +84,6 @@ abstract class BaseCommand
 
         try {
             $output = $process->mustRun()->getOutput();
-            $error = $process->mustRun()->getErrorOutput();
             return $this->getResponse($output);
         } catch (ProcessFailedException $exception) {
             return $this->catchException($exception);

@@ -10,6 +10,8 @@ namespace Horat1us\Git\Commands;
 
 
 use Horat1us\Git\Responses\BaseResponse;
+use Horat1us\Git\Responses\Fetch\GitFetchEmptyResponse;
+use Horat1us\Git\Responses\Fetch\GitFetchResponse;
 
 /**
  * Class GitFetch
@@ -19,10 +21,14 @@ class GitFetch extends BaseCommand
 {
     /**
      * @param string $output
-     * @return BaseResponse
+     * @return GitFetchResponse|BaseResponse
      */
     protected function getResponse(string $output): BaseResponse
     {
-        xdebug_break();
+        if (empty($output)) {
+            return new GitFetchEmptyResponse();
+        }
+
+        return new GitFetchResponse($output);
     }
 }
